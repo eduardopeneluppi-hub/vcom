@@ -57,26 +57,24 @@ export default function ContentPage({ revealed }) {
           <MugShowcase />
         </motion.div>
 
-        <div className="w-full overflow-x-hidden">
-          <div className="relative h-[420px] w-full sm:h-[620px] lg:h-[760px]">
-            <div className="absolute inset-0 overflow-hidden">
-              <img
-                src={waveBg}
-                alt=""
-                className="pointer-events-none h-full w-full select-none object-cover object-[left_10%] sm:object-center"
-                draggable={false}
-              />
-            </div>
+        <div className="relative h-[420px] w-full sm:h-[620px] lg:h-[760px]">
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              src={waveBg}
+              alt=""
+              className="pointer-events-none h-full w-full select-none object-cover object-[left_10%] sm:object-center"
+              draggable={false}
+            />
+          </div>
 
-            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-7 px-6 -translate-y-10 sm:-translate-y-16">
-              <SectionBadgeTitle>Caixas Cartonadas</SectionBadgeTitle>
-              <img
-                src={caixasImg}
-                alt="Caixas cartonadas personalizadas Vcom"
-                className="w-[128vw] max-w-none scale-150 select-none drop-shadow-2xl sm:w-[95vw] sm:max-w-6xl sm:scale-125"
-                draggable={false}
-              />
-            </div>
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-7 px-6 -translate-y-10 sm:-translate-y-16">
+            <SectionBadgeTitle>Caixas Cartonadas</SectionBadgeTitle>
+            <img
+              src={caixasImg}
+              alt="Caixas cartonadas personalizadas Vcom"
+              className="w-full max-w-2xl select-none drop-shadow-2xl sm:max-w-4xl"
+              draggable={false}
+            />
           </div>
         </div>
       </main>
