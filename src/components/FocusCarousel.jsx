@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import SectionBadgeTitle from './SectionBadgeTitle'
 
@@ -27,10 +27,8 @@ export default function FocusCarousel({ title, items, prevLabel = 'Anterior', ne
   const [active, setActive] = useState(0)
   const [ghost, setGhost] = useState(null)
   const [dir, setDir] = useState(1)
-  const navCountRef = useRef(0)
 
   const go = (step) => {
-    navCountRef.current += 1
     setGhost(active)
     setDir(step)
     setActive((current) => (current + step + items.length) % items.length)
@@ -49,24 +47,24 @@ export default function FocusCarousel({ title, items, prevLabel = 'Anterior', ne
         style={{ perspective: 1200 }}
       >
         <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
-          <AnimatePresence>
+          <motion.div
+            initial={false}
+            animate={
+              ghost === null
+                ? { opacity: 0, scale: 0.52, x: 0, filter: 'blur(7px)' }
+                : { opacity: 0.4, scale: 0.52, x: dir === 1 ? -160 : 160, filter: 'blur(7px)' }
+            }
+            transition={{ duration: 0.55, ease: EASE_EXPO }}
+          >
             {ghost !== null && items[ghost] && (
-              <motion.div
-                key={`ghost-${navCountRef.current}`}
-                initial={{ opacity: 0, scale: 0.85, x: dir === 1 ? -20 : 20, filter: 'blur(0px)' }}
-                animate={{ opacity: 0.4, scale: 0.52, x: dir === 1 ? -160 : 160, filter: 'blur(7px)' }}
-                exit={{ opacity: 0, scale: 0.4, filter: 'blur(10px)' }}
-                transition={{ duration: 0.6, ease: EASE_EXPO }}
-              >
-                <img
-                  src={items[ghost].src}
-                  alt=""
-                  className="h-[260px] w-auto select-none sm:h-[320px]"
-                  draggable={false}
-                />
-              </motion.div>
+              <img
+                src={items[ghost].src}
+                alt=""
+                className="h-[260px] w-auto select-none sm:h-[320px]"
+                draggable={false}
+              />
             )}
-          </AnimatePresence>
+          </motion.div>
         </div>
 
         <div className="absolute inset-0 z-10 flex items-center justify-center">

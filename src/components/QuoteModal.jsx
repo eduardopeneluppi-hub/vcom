@@ -173,7 +173,7 @@ export default function QuoteModal({ open, onClose }) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="quote-modal-title"
-              className="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-[28px] bg-white p-6 shadow-2xl sm:p-8"
+              className="relative flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-[28px] bg-white shadow-2xl"
               initial={{ opacity: 0, scale: 0.92, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 10 }}
@@ -184,73 +184,79 @@ export default function QuoteModal({ open, onClose }) {
                 type="button"
                 onClick={onClose}
                 aria-label="Fechar"
-                className="absolute right-5 top-5 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-[#17151c]/50 transition-colors hover:bg-black/5 hover:text-[#17151c]"
+                className="absolute right-5 top-5 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-[#17151c]/50 transition-colors hover:bg-black/5 hover:text-[#17151c]"
               >
                 <CloseIcon />
               </button>
 
-              <h2
-                id="quote-modal-title"
-                className="pr-10 text-[clamp(1.4rem,3.5vw,1.75rem)] font-semibold tracking-tight text-[#17151c]"
-                style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
-              >
-                Solicitar orçamento
-              </h2>
-              <p className="mt-1.5 text-sm text-[#6b6875]">
-                Escolha o serviço que você precisa e continue no WhatsApp.
-              </p>
+              <div className="flex-1 overflow-y-auto p-6 pb-0 sm:p-8 sm:pb-0">
+                <h2
+                  id="quote-modal-title"
+                  className="pr-10 text-[clamp(1.4rem,3.5vw,1.75rem)] font-semibold tracking-tight text-[#17151c]"
+                  style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
+                >
+                  Solicitar orçamento
+                </h2>
+                <p className="mt-1.5 text-sm text-[#6b6875]">
+                  Escolha o serviço que você precisa e continue no WhatsApp.
+                </p>
 
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {SERVICES.map((service) => {
-                  const isSelected = selected === service.id
-                  return (
-                    <button
-                      key={service.id}
-                      type="button"
-                      onClick={() => setSelected(service.id)}
-                      aria-pressed={isSelected}
-                      className={`flex cursor-pointer flex-col items-start gap-2.5 rounded-2xl border px-3.5 py-3.5 text-left text-sm font-medium transition-colors ${
-                        isSelected
-                          ? 'border-[#17151c] bg-[#17151c] text-white'
-                          : 'border-black/10 text-[#17151c] hover:border-black/25 hover:bg-black/[0.03]'
-                      }`}
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {SERVICES.map((service) => {
+                    const isSelected = selected === service.id
+                    return (
+                      <button
+                        key={service.id}
+                        type="button"
+                        onClick={() => setSelected(service.id)}
+                        aria-pressed={isSelected}
+                        className={`flex cursor-pointer flex-col items-start gap-2.5 rounded-2xl border px-3.5 py-3.5 text-left text-sm font-medium transition-colors ${
+                          isSelected
+                            ? 'border-[#17151c] bg-[#17151c] text-white'
+                            : 'border-black/10 text-[#17151c] hover:border-black/25 hover:bg-black/[0.03]'
+                        }`}
+                      >
+                        <ServiceIcon name={service.icon} />
+                        <span className="leading-snug">{service.label}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+
+                <AnimatePresence initial={false}>
+                  {isOther && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: EASE_EXPO }}
+                      className="overflow-hidden"
                     >
-                      <ServiceIcon name={service.icon} />
-                      <span className="leading-snug">{service.label}</span>
-                    </button>
-                  )
-                })}
+                      <textarea
+                        value={customText}
+                        onChange={(e) => setCustomText(e.target.value)}
+                        placeholder="Descreva o que você precisa..."
+                        rows={3}
+                        className="mt-4 w-full resize-none rounded-2xl border border-black/10 px-4 py-3 text-sm text-[#17151c] outline-none placeholder:text-[#6b6875]/70 focus:border-black/30"
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div className="h-6" />
               </div>
 
-              <AnimatePresence initial={false}>
-                {isOther && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: EASE_EXPO }}
-                    className="overflow-hidden"
-                  >
-                    <textarea
-                      value={customText}
-                      onChange={(e) => setCustomText(e.target.value)}
-                      placeholder="Descreva o que você precisa..."
-                      rows={3}
-                      className="mt-4 w-full resize-none rounded-2xl border border-black/10 px-4 py-3 text-sm text-[#17151c] outline-none placeholder:text-[#6b6875]/70 focus:border-black/30"
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <button
-                type="button"
-                onClick={handleContinue}
-                disabled={!canContinue}
-                className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-[#25D366] py-3.5 text-sm font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <WhatsAppIcon />
-                Continuar no WhatsApp
-              </button>
+              <div className="shrink-0 border-t border-black/[0.06] p-6 sm:p-8">
+                <button
+                  type="button"
+                  onClick={handleContinue}
+                  disabled={!canContinue}
+                  className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-[#25D366] py-3.5 text-sm font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <WhatsAppIcon />
+                  Continuar no WhatsApp
+                </button>
+              </div>
             </motion.div>
           </div>
         </>
