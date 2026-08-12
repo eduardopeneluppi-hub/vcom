@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { useReducedMotion } from 'framer-motion'
 import panfletos from '../assets/banner-panfletos.png'
 import cadernos from '../assets/banner-cadernos.png'
 import fachadas from '../assets/banner-fachadas.png'
@@ -17,11 +16,10 @@ export default function ServicesBanner() {
   const trackRef = useRef(null)
   const pausedRef = useRef(false)
   const resumeTimerRef = useRef(null)
-  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
     const track = trackRef.current
-    if (!track || prefersReducedMotion) return
+    if (!track) return
 
     let frame
     const step = () => {
@@ -36,7 +34,7 @@ export default function ServicesBanner() {
     }
     frame = requestAnimationFrame(step)
     return () => cancelAnimationFrame(frame)
-  }, [prefersReducedMotion])
+  }, [])
 
   const pause = () => {
     pausedRef.current = true
