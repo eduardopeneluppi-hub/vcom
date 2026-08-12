@@ -71,13 +71,6 @@ export default function ServicesBanner() {
     <section aria-label="Serviços em destaque" className="w-full">
       <div
         ref={trackRef}
-        onPointerDown={pause}
-        onPointerUp={scheduleResume}
-        onPointerLeave={scheduleResume}
-        onPointerCancel={scheduleResume}
-        onTouchStart={pause}
-        onTouchEnd={scheduleResume}
-        onTouchCancel={scheduleResume}
         className="flex gap-5 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:px-10 [&::-webkit-scrollbar]:hidden"
       >
         {[...SLIDES, ...SLIDES].map((slide, index) => (
