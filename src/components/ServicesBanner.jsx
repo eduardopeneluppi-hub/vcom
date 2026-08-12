@@ -9,7 +9,7 @@ const SLIDES = [
   { src: fachadas, alt: 'Banner de lona para fachada de negócio impresso pela Vcom' },
 ]
 
-const AUTOPLAY_SPEED = 0.5
+const AUTOPLAY_SPEED = 1.6
 const RESUME_DELAY = 2200
 
 export default function ServicesBanner() {
