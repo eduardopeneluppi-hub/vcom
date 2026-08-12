@@ -61,7 +61,7 @@ export default function ContentPage({ revealed }) {
           <SectionBadgeTitle>Caixas Cartonadas</SectionBadgeTitle>
         </div>
 
-        <div className="relative aspect-[16/9] w-full overflow-hidden">
+        <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/9]">
           <img
             src={waveBg}
             alt=""
