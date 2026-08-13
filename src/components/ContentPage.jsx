@@ -7,6 +7,7 @@ import QuoteModal from './QuoteModal'
 import SectionBadgeTitle from './SectionBadgeTitle'
 import waveBg from '../assets/wave-bg-2.png'
 import caixasImg from '../assets/caixas-cartonadas-2.png'
+import mugsBg from '../assets/mugs-bg-2.png'
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
@@ -48,14 +49,23 @@ export default function ContentPage({ revealed }) {
           <ServicesBanner />
         </motion.div>
 
-        <motion.div
-          className="w-full"
-          initial={{ opacity: 0, y: 22 }}
-          animate={revealed ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.45, ease: EASE_EXPO }}
-        >
-          <MugShowcase />
-        </motion.div>
+        <div className="relative w-full overflow-hidden">
+          <img
+            src={mugsBg}
+            alt=""
+            className="pointer-events-none absolute inset-0 h-full w-full scale-[5] select-none object-contain sm:scale-[2.5]"
+            draggable={false}
+          />
+
+          <motion.div
+            className="relative w-full"
+            initial={{ opacity: 0, y: 22 }}
+            animate={revealed ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.45, ease: EASE_EXPO }}
+          >
+            <MugShowcase />
+          </motion.div>
+        </div>
 
         <div className="flex justify-center px-6 pt-10">
           <SectionBadgeTitle>Caixas Cartonadas</SectionBadgeTitle>
