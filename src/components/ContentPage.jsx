@@ -4,6 +4,7 @@ import vcomLogo from '../assets/vcom-logo.png'
 import ServicesBanner from './ServicesBanner'
 import MugShowcase from './MugShowcase'
 import QuoteModal from './QuoteModal'
+import topBg from '../assets/top-bg.png'
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
@@ -12,7 +13,14 @@ export default function ContentPage({ revealed }) {
   const [quoteOpen, setQuoteOpen] = useState(false)
 
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen">
+      <img
+        src={topBg}
+        alt=""
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-screen w-full select-none object-cover sm:h-[130vh]"
+        draggable={false}
+      />
+
       <header className="fixed inset-x-0 top-5 z-10 flex justify-center px-4 sm:top-6">
         <div className="flex w-full max-w-2xl items-center justify-between gap-4 rounded-full border border-white/15 bg-black/35 py-0.5 pl-4 pr-2.5 shadow-[0_8px_32px_-10px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:pl-5">
           <motion.div
