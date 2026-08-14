@@ -21,9 +21,16 @@ function ChevronIcon({ direction }) {
 /**
  * Focus carousel: the active item shows large and sharp; the item it
  * replaced shrinks, blurs, and settles beside it in the direction it
- * came from. Navigate with the left/right buttons.
+ * came from. Each item can carry its own title, which crossfades as
+ * you navigate. Navigate with the left/right buttons.
  */
-export default function FocusCarousel({ title, items, prevLabel = 'Anterior', nextLabel = 'Próximo' }) {
+export default function FocusCarousel({
+  items,
+  frameSrc,
+  frameClassName = 'pointer-events-none absolute inset-0 z-0 h-full w-full select-none object-contain',
+  prevLabel = 'Anterior',
+  nextLabel = 'Próximo',
+}) {
   const [active, setActive] = useState(0)
   const [ghost, setGhost] = useState(null)
   const [dir, setDir] = useState(1)
@@ -34,11 +41,23 @@ export default function FocusCarousel({ title, items, prevLabel = 'Anterior', ne
     setActive((current) => (current + step + items.length) % items.length)
   }
 
+  const currentTitle = items[active]?.title
+
   return (
     <section className="w-full py-16 sm:py-20">
-      {title && (
+      {currentTitle && (
         <div className="flex justify-center px-6">
-          <SectionBadgeTitle>{title}</SectionBadgeTitle>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={currentTitle}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: EASE_EXPO }}
+            >
+              <SectionBadgeTitle>{currentTitle}</SectionBadgeTitle>
+            </motion.div>
+          </AnimatePresence>
         </div>
       )}
 
@@ -46,7 +65,9 @@ export default function FocusCarousel({ title, items, prevLabel = 'Anterior', ne
         className="relative mx-auto mt-10 h-[320px] w-full max-w-lg sm:h-[400px]"
         style={{ perspective: 1200 }}
       >
-        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+        {frameSrc && <img src={frameSrc} alt="" className={frameClassName} draggable={false} />}
+
+        <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center">
           <motion.div
             initial={false}
             animate={
@@ -81,6 +102,7 @@ export default function FocusCarousel({ title, items, prevLabel = 'Anterior', ne
                   src={items[active].src}
                   alt={items[active].alt}
                   className="h-[280px] w-auto select-none drop-shadow-2xl sm:h-[360px]"
+                  style={items[active].scale ? { transform: `scale(${items[active].scale})` } : undefined}
                   draggable={false}
                 />
               </motion.div>
@@ -88,23 +110,27 @@ export default function FocusCarousel({ title, items, prevLabel = 'Anterior', ne
           </AnimatePresence>
         </div>
 
-        <button
-          type="button"
-          onClick={() => go(-1)}
-          aria-label={prevLabel}
-          className="absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#17151c] text-white shadow-lg transition-transform hover:scale-105 active:scale-95 sm:left-6"
-        >
-          <ChevronIcon direction="left" />
-        </button>
+        {items.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              aria-label={prevLabel}
+              className="absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#17151c] text-white shadow-lg transition-transform hover:scale-105 active:scale-95 sm:left-6"
+            >
+              <ChevronIcon direction="left" />
+            </button>
 
-        <button
-          type="button"
-          onClick={() => go(1)}
-          aria-label={nextLabel}
-          className="absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#17151c] text-white shadow-lg transition-transform hover:scale-105 active:scale-95 sm:right-6"
-        >
-          <ChevronIcon direction="right" />
-        </button>
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label={nextLabel}
+              className="absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#17151c] text-white shadow-lg transition-transform hover:scale-105 active:scale-95 sm:right-6"
+            >
+              <ChevronIcon direction="right" />
+            </button>
+          </>
+        )}
       </div>
     </section>
   )

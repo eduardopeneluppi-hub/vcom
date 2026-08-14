@@ -34,13 +34,28 @@ export default function ContentPage({ revealed }) {
             <img src={vcomLogo} alt="Vcom" className="h-12 w-auto sm:h-14" draggable={false} />
           </motion.div>
 
-          <button
+          <motion.button
             type="button"
             onClick={() => setQuoteOpen(true)}
-            className="cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-medium text-[#17151c] transition-colors hover:bg-white/90 sm:px-5"
+            className="relative cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-medium text-[#17151c] transition-colors hover:bg-white/90 sm:px-5"
+            animate={
+              prefersReducedMotion
+                ? {}
+                : {
+                    boxShadow: [
+                      '0 0 0 0 rgba(236,61,132,0.55)',
+                      '0 0 0 10px rgba(236,61,132,0)',
+                      '0 0 0 0 rgba(246,181,47,0.55)',
+                      '0 0 0 10px rgba(246,181,47,0)',
+                    ],
+                  }
+            }
+            transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
           >
             Solicitar orçamento
-          </button>
+          </motion.button>
         </div>
       </header>
 

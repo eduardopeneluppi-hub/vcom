@@ -85,23 +85,30 @@ export default function IntroOverlay({ percent, done }) {
 
         {/* Progress */}
         <motion.div
-          className="flex flex-col items-center gap-3"
+          className="flex flex-col items-center gap-4"
           animate={{ opacity: done ? 0 : 1 }}
           transition={{ duration: 0.5, delay: done ? 0.2 : 0 }}
         >
-          <div className="h-px w-56 overflow-hidden bg-white/10">
+          {prefersReducedMotion ? (
             <div
-              className="h-full"
-              style={{
-                width: `${percent}%`,
-                background: 'linear-gradient(90deg, oklch(0.62 0.24 350), oklch(0.82 0.16 85))',
-              }}
+              className="h-9 w-9 rounded-full border-2 border-white/15"
+              style={{ borderTopColor: 'oklch(0.72 0.19 20)' }}
             />
-          </div>
-          <div className="flex items-center gap-3 font-mono text-[11px] tracking-[0.25em] text-white/40">
-            <span>CARREGANDO</span>
-            <span className="tabular-nums text-white/60">{percent}%</span>
-          </div>
+          ) : (
+            <motion.div
+              className="h-9 w-9 rounded-full"
+              style={{
+                background:
+                  'conic-gradient(from 0deg, oklch(0.62 0.24 350), oklch(0.82 0.16 85), transparent 100%)',
+                WebkitMask:
+                  'radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px))',
+                mask: 'radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px))',
+              }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+            />
+          )}
+          <span className="font-mono text-[11px] tracking-[0.25em] text-white/40">CARREGANDO</span>
         </motion.div>
       </div>
     </motion.div>
