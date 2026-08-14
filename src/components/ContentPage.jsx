@@ -4,9 +4,6 @@ import vcomLogo from '../assets/vcom-logo.png'
 import ServicesBanner from './ServicesBanner'
 import MugShowcase from './MugShowcase'
 import QuoteModal from './QuoteModal'
-import SectionBadgeTitle from './SectionBadgeTitle'
-import waveBg from '../assets/wave-bg-2.png'
-import caixasImg from '../assets/caixas-cartonadas-2.png'
 import mugsBg from '../assets/mugs-bg-2.png'
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
@@ -65,28 +62,6 @@ export default function ContentPage({ revealed }) {
           >
             <MugShowcase />
           </motion.div>
-        </div>
-
-        <div className="flex justify-center px-6 pt-10">
-          <SectionBadgeTitle>Caixas Cartonadas</SectionBadgeTitle>
-        </div>
-
-        <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/9]">
-          <img
-            src={waveBg}
-            alt=""
-            className="pointer-events-none h-full w-full select-none object-cover"
-            draggable={false}
-          />
-
-          <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-center px-6">
-            <img
-              src={caixasImg}
-              alt="Caixas cartonadas personalizadas Vcom"
-              className="w-full max-w-md select-none drop-shadow-2xl sm:max-w-3xl"
-              draggable={false}
-            />
-          </div>
         </div>
       </main>
     </div>
