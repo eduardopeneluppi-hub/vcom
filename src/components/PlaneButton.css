@@ -1,0 +1,238 @@
+/* From Uiverse.io by marcelodolza, adapted */
+.plane-btn {
+  --primary: #ec3d84;
+  --neutral-1: #f7f8f7;
+  --neutral-2: #e7e7e7;
+  --radius: 14px;
+
+  cursor: pointer;
+  border-radius: var(--radius);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  border: none;
+  box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
+    0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  padding: 20px;
+  height: 68px;
+  font-family: inherit;
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 600;
+  color: #17151c;
+}
+
+.plane-btn:hover,
+.plane-btn.auto-trigger {
+  transform: scale(1.02);
+  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
+}
+
+.plane-btn:active {
+  transform: scale(1);
+  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 10px 3px -3px rgba(0, 0, 0, 0.2);
+}
+
+.plane-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  border: 2.5px solid transparent;
+  background: linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45))
+      border-box;
+  z-index: 0;
+  transition: all 0.4s ease;
+}
+
+.plane-btn:hover::after,
+.plane-btn.auto-trigger::after {
+  transform: scale(1.05, 1.1);
+  box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 1);
+}
+
+.plane-btn::before {
+  content: '';
+  inset: 7px 6px 6px 6px;
+  position: absolute;
+  background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+  border-radius: 30px;
+  filter: blur(0.5px);
+  z-index: 0;
+}
+
+.plane-btn .state {
+  padding-left: 29px;
+  z-index: 2;
+  display: flex;
+  position: relative;
+}
+
+.plane-btn .state p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plane-btn .state .icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  transform: scale(1.25);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plane-btn .state .icon svg {
+  overflow: visible;
+}
+
+/* Outline */
+.plane-btn .outline {
+  position: absolute;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  inset: -2px -3.5px;
+}
+
+.plane-btn .outline::before {
+  content: '';
+  position: absolute;
+  inset: -100%;
+  background: conic-gradient(
+    from 180deg,
+    transparent 60%,
+    white 80%,
+    transparent 100%
+  );
+  animation: plane-btn-spin 2s linear infinite;
+  animation-play-state: paused;
+}
+
+@keyframes plane-btn-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.plane-btn:hover .outline,
+.plane-btn.auto-trigger .outline {
+  opacity: 1;
+}
+
+.plane-btn:hover .outline::before,
+.plane-btn.auto-trigger .outline::before {
+  animation-play-state: running;
+}
+
+/* Letters */
+.plane-btn .state p span {
+  display: block;
+  opacity: 0;
+  animation: plane-btn-slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+}
+
+.plane-btn:hover p span,
+.plane-btn.auto-trigger p span {
+  opacity: 1;
+  animation: plane-btn-wave 0.5s ease forwards calc(var(--i) * 0.02s);
+}
+
+@keyframes plane-btn-wave {
+  30% {
+    opacity: 1;
+    transform: translateY(4px) translateX(0) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px) translateX(0) rotate(0);
+    color: var(--primary);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0);
+  }
+}
+
+@keyframes plane-btn-slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) translateX(5px) rotate(-90deg);
+    color: var(--primary);
+    filter: blur(5px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(4px) translateX(0) rotate(0);
+    filter: blur(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px) translateX(0) rotate(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0);
+  }
+}
+
+/* Plane */
+.plane-btn .state .icon svg {
+  animation: plane-btn-land 0.6s ease forwards;
+}
+
+.plane-btn:hover .state .icon,
+.plane-btn.auto-trigger .state .icon {
+  transform: rotate(45deg) scale(1.25);
+}
+
+@keyframes plane-btn-land {
+  0% {
+    transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
+    opacity: 0;
+    filter: blur(3px);
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotate(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Compact size, for tight spots like the navbar */
+.plane-btn.compact {
+  min-width: 0;
+  padding: 12px 20px;
+  height: 46px;
+  font-size: 14px;
+}
+
+.plane-btn.compact .state {
+  padding-left: 21px;
+}
+
+.plane-btn.compact .state .icon {
+  transform: scale(0.9);
+}
+
+.plane-btn.compact:hover .state .icon,
+.plane-btn.compact.auto-trigger .state .icon {
+  transform: rotate(45deg) scale(0.9);
+}

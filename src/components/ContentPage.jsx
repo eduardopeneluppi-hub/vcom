@@ -4,6 +4,7 @@ import vcomLogo from '../assets/vcom-logo.png'
 import ServicesBanner from './ServicesBanner'
 import MugShowcase from './MugShowcase'
 import QuoteModal from './QuoteModal'
+import PlaneButton from './PlaneButton'
 import topBg from '../assets/top-bg.png'
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
@@ -34,28 +35,9 @@ export default function ContentPage({ revealed }) {
             <img src={vcomLogo} alt="Vcom" className="h-12 w-auto sm:h-14" draggable={false} />
           </motion.div>
 
-          <motion.button
-            type="button"
-            onClick={() => setQuoteOpen(true)}
-            className="relative cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-medium text-[#17151c] transition-colors hover:bg-white/90 sm:px-5"
-            animate={
-              prefersReducedMotion
-                ? {}
-                : {
-                    boxShadow: [
-                      '0 0 0 0 rgba(236,61,132,0.55)',
-                      '0 0 0 10px rgba(236,61,132,0)',
-                      '0 0 0 0 rgba(246,181,47,0.55)',
-                      '0 0 0 10px rgba(246,181,47,0)',
-                    ],
-                  }
-            }
-            transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <PlaneButton compact autoPlay onClick={() => setQuoteOpen(true)}>
             Solicitar orçamento
-          </motion.button>
+          </PlaneButton>
         </div>
       </header>
 
@@ -78,6 +60,15 @@ export default function ContentPage({ revealed }) {
           transition={{ duration: 0.8, delay: 0.45, ease: EASE_EXPO }}
         >
           <MugShowcase />
+        </motion.div>
+
+        <motion.div
+          className="-mt-12 flex w-full justify-center px-6 pb-4 sm:-mt-14"
+          initial={{ opacity: 0, y: 22 }}
+          animate={revealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6, ease: EASE_EXPO }}
+        >
+          <PlaneButton onClick={() => setQuoteOpen(true)}>Gostaria de um dos serviços?</PlaneButton>
         </motion.div>
       </main>
     </div>
